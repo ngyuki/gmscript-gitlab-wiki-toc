@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title></title>
+<script src="../gitlab-wiki-toc.user.js"></script>
+<script src="jquery-1.10.2.min.js"></script>
+<style>
+body {
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid #f00;
+}
+
+.wiki {
+    background-color: #ffc;
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid #f00;
+}
+</style>
+<script>
+$(function(){
+    console.log('jquery orig ' + jQuery().jquery + ', ' + $().jquery);
+})
+</script>
+</head>
+<body>
+
+<h1>ほげほげ</h1>
+
+<div class="file_content wiki">
+
+    <h1>allhosts-util</h1>
+    <h2>
+    <a name="" class="anchor" href="#"><span class="octicon octicon-link"></span></a>はじめに</h2>
+
+    <p>複数ホストのサーバ設定や管理を助けるための簡単なシェルスクリプトです。</p>
+
+    <h2>
+    <a name="-1" class="anchor" href="#-1"><span class="octicon octicon-link"></span></a>インストール</h2>
+
+    <p>パスの通ったところに保存して実行属性を付与してください。</p>
+
+    <h2>
+    <a name="-2" class="anchor" href="#-2"><span class="octicon octicon-link"></span></a>対象ホストの指定</h2>
+
+    <p>対象となるホストは ALLHOST.conf で次のように指定します。</p>
+
+    <div class="highlight"><pre><span class="nv">HOSTS</span><span class="o">=</span><span class="s2">"192.168.0.1 192.168.0.2 192.168.0.3 192.168.0.4"</span>
+    </pre></div>
+
+    <p>ALLHOST.conf が見つからない場合は ALLHOST.conf.dist が使用されます。</p>
+
+    <p>どちらのファイルも bash の source で読み込まれるので、スクリプトっぽいことを行わせることも可能です。</p>
+
+    <h2>
+    <a name="allhost" class="anchor" href="#allhost"><span class="octicon octicon-link"></span></a>ALLHOST</h2>
+
+    <p>単に対象となるホストの一覧を出力します。</p>
+
+    <h3>
+    <a name="-3" class="anchor" href="#-3"><span class="octicon octicon-link"></span></a>使用例</h3>
+
+    <pre><code>$ ALLHOST
+    </code></pre>
+
+    <h3>
+    <a name="-4" class="anchor" href="#-4"><span class="octicon octicon-link"></span></a>実行結果</h3>
+
+    <pre><code>192.168.0.1
+    192.168.0.2
+    192.168.0.3
+    192.168.0.4
+    </code></pre>
+
+    <h2>
+    <a name="alleval" class="anchor" href="#alleval"><span class="octicon octicon-link"></span></a>ALLEVAL</h2>
+
+    <p>環境変数<code>$H</code>にホストを設定しつつ、引数で与えられたコマンドを<code>eval</code>で繰り返し実行します。</p>
+
+    <h3>
+    <a name="-5" class="anchor" href="#-5"><span class="octicon octicon-link"></span></a>使用例</h3>
+
+    <pre><code>$ export HOSTS="192.168.0.1 192.168.0.2 192.168.0.3 192.168.0.4"
+    $ ALLEVAL echo \$H
+    </code></pre>
+
+    <p><code>$H</code> の前の <code>\</code> は <strong>必要</strong> です。もしくは<code>ALLEVAL 'echo $H'</code>のようにコマンドをシングルクオートで囲います</p>
+
+    <h3>
+    <a name="-6" class="anchor" href="#-6"><span class="octicon octicon-link"></span></a>実行結果</h3>
+
+    <pre><code># H=192.168.0.1 echo $H
+    192.168.0.1
+    # H=192.168.0.2 echo $H
+    192.168.0.2
+    # H=192.168.0.3 echo $H
+    192.168.0.3
+    # H=192.168.0.4 echo $H
+    192.168.0.4
+    </code></pre>
+
+    <h2>
+    <a name="allhash" class="anchor" href="#allhash"><span class="octicon octicon-link"></span></a>ALLHASH</h2>
+
+    <p>全てのホストで指定されたファイルの md5 ハッシュ値を表示します。</p>
+
+    <p>例えば、次のように設定ファイルの内容が全ホストで同じであるかの確認に使えます。</p>
+
+    <p>ディレクトリを指定した場合はディレクトリ内の全てのファイルが対象となります。</p>
+
+    <h3>
+    <a name="-7" class="anchor" href="#-7"><span class="octicon octicon-link"></span></a>使用例</h3>
+
+    <pre><code>$ ALLHASH /etc/my.cnf /etc/httpd/conf/
+    </code></pre>
+
+    <h3>
+    <a name="-8" class="anchor" href="#-8"><span class="octicon octicon-link"></span></a>実行結果</h3>
+
+    <pre><code>a19a1c79c1e02177dbde07d6f4c81f28  /etc/httpd/conf/httpd.conf    192.168.0.1
+    a19a1c79c1e02177dbde07d6f4c81f28  /etc/httpd/conf/httpd.conf    192.168.0.2
+    a19a1c79c1e02177dbde07d6f4c81f28  /etc/httpd/conf/httpd.conf    192.168.0.3
+    a19a1c79c1e02177dbde07d6f4c81f28  /etc/httpd/conf/httpd.conf    192.168.0.4
+    9934de63d4f4321a375de42464c24c87  /etc/httpd/conf/magic 192.168.0.1
+    9934de63d4f4321a375de42464c24c87  /etc/httpd/conf/magic 192.168.0.2
+    9934de63d4f4321a375de42464c24c87  /etc/httpd/conf/magic 192.168.0.3
+    9934de63d4f4321a375de42464c24c87  /etc/httpd/conf/magic 192.168.0.4
+    4465e16b938a4cd91d12eff269b4e856  /etc/my.cnf   192.168.0.1
+    4465e16b938a4cd91d12eff269b4e856  /etc/my.cnf   192.168.0.2
+    4465e16b938a4cd91d12eff269b4e856  /etc/my.cnf   192.168.0.3
+    4465e16b938a4cd91d12eff269b4e856  /etc/my.cnf   192.168.0.4
+    </code></pre>
+
+    <h2>
+    <a name="allssh" class="anchor" href="#allssh"><span class="octicon octicon-link"></span></a>ALLSSH</h2>
+
+    <p>指定されたコマンドを ssh 経由で全てのホストで実行します。</p>
+
+    <h3>
+    <a name="-9" class="anchor" href="#-9"><span class="octicon octicon-link"></span></a>使用例</h3>
+
+    <pre><code>$ ALLSSH uname -n
+    </code></pre>
+
+    <h3>
+    <a name="-10" class="anchor" href="#-10"><span class="octicon octicon-link"></span></a>実行結果</h3>
+
+    <pre><code>### ssh 192.168.0.1 uname -n
+    host01.example.net
+    ### ssh 192.168.0.2 uname -n
+    host02.example.net
+    ### ssh 192.168.0.3 uname -n
+    host03.example.net
+    ### ssh 192.168.0.4 uname -n
+    host04.example.net
+    </code></pre>
+
+    <h2>
+    <a name="allsync" class="anchor" href="#allsync"><span class="octicon octicon-link"></span></a>ALLSYNC</h2>
+
+    <p>指定されたファイル・ディレクトリを rsync で全てのホストに同期します。</p>
+
+    <p>自分自身がホストのリストに含まれる場合は自分自身へは rsync しません。</p>
+
+    <p>rsync はバージョン 3 以上が必要です。</p>
+
+    <p>追加で以下のオプションが指定可能です。</p>
+
+    <pre><code>-n    rsync に -n オプションを付けて実行します。
+    -d    実際に実行する rsync コマンドを表示します（表示するだけで実行はしません）
+    </code></pre>
+
+    <h3>
+    <a name="-11" class="anchor" href="#-11"><span class="octicon octicon-link"></span></a>使用例</h3>
+
+    <pre><code>$ ALLSYNC /tmp/ -d
+    </code></pre>
+
+    <h3>
+    <a name="-12" class="anchor" href="#-12"><span class="octicon octicon-link"></span></a>実行結果</h3>
+
+    <pre><code>### 192.168.0.2 (debug)
+    rsync -Rai --out-format %n --no-implied-dirs --delete /tmp/ 192.168.0.2:/
+    ### 192.168.0.3 (debug)
+    rsync -Rai --out-format %n --no-implied-dirs --delete /tmp/ 192.168.0.3:/
+    ### 192.168.0.4 (debug)
+    rsync -Rai --out-format %n --no-implied-dirs --delete /tmp/ 192.168.0.4:/
+    </code></pre>
+
+    <p>オプションの<code>-d</code>を無くすと、これらの rsync コマンドが実際に実行されます。</p>
+
+    <p>自ホストが 192.168.0.1 の場合、この実行結果のように除外されます（192.168.0.1 から他ホストに同期するということ）。</p>
+
+    <h2>
+    <a name="alltail" class="anchor" href="#alltail"><span class="octicon octicon-link"></span></a>ALLTAIL</h2>
+
+    <p>指定されたファイルを全てのホストで tail -F で監視します。Ctrl + C で終了します。</p>
+
+    <h3>
+    <a name="-13" class="anchor" href="#-13"><span class="octicon octicon-link"></span></a>使用例</h3>
+
+    <pre><code>$ ALLTAIL /var/log/httpd/access_log
+    </code></pre>
+
+    <h2>
+    <a name="copyright" class="anchor" href="#copyright"><span class="octicon octicon-link"></span></a>Copyright</h2>
+
+    <p>Copyright (c) 2012 tsyk goto <a href="mailto:ngyuki.ts@gmail.com">ngyuki.ts@gmail.com</a></p>
+
+    <h2>
+    <a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
+
+    <p><a href="http://www.opensource.org/licenses/mit-license.php">MIT License</a></p>
+
+</div>
+
+</body>
+</html>
