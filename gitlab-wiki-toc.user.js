@@ -58,6 +58,13 @@
                 .click(function(){
                     var pos = $htag.position().top;
                     $('html,body').animate({scrollTop:pos}, 'fast');
+                    $htag
+                        .delay(200)
+                        .animate({opacity:0}, 'fast')
+                        .animate({opacity:1}, 'fast')
+                        .animate({opacity:0}, 'fast')
+                        .animate({opacity:1}, 'fast')
+                    ;
                     return false;
                 })
                 .parent().appendTo($elem)
