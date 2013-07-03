@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        GitLab Wiki TOC
 // @namespace   http://ngyuki.net/
-// @include     http://gitlab.example.net/*/wikis/*
+// @include     http://demo.gitlab.com/*/wikis/*
 // @version     0.0.1
 // @grant       none
 // ==/UserScript==
@@ -53,7 +53,7 @@
             }
 
             $('<a href="#" style="text-decoration:none">')
-                .appendTo('<li style="margin:0 0 5px 10px !important; padding:0 !important">')
+                .appendTo('<li style="margin:0 0 5px 0 !important; padding:0 !important; list-style-position:inside; max-width:400px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap">')
                 .text($htag.text())
                 .click(function(){
                     var pos = $htag.position().top;
