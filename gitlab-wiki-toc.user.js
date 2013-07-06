@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        GitLab Wiki TOC
 // @namespace   http://ngyuki.net/
-// @include     http://demo.gitlab.com/*/wikis/*
+// @include     http://demo.gitlabhq.com/*
 // @version     0.0.1
 // @grant       none
 // ==/UserScript==
@@ -60,10 +60,10 @@
                     $('html,body').animate({scrollTop:pos}, 'fast');
                     $htag
                         .delay(200)
-                        .animate({opacity:0}, 'fast')
-                        .animate({opacity:1}, 'fast')
-                        .animate({opacity:0}, 'fast')
-                        .animate({opacity:1}, 'fast')
+                        .animate({opacity:0}, 150)
+                        .animate({opacity:1}, 150)
+                        .animate({opacity:0}, 150)
+                        .animate({opacity:1}, 150)
                     ;
                     return false;
                 })
