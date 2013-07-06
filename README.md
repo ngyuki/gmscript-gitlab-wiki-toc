@@ -11,11 +11,30 @@ GitLab の Wiki ページに目次を追加するユーザースクリプトで�
 Greasemonkey の「ユーザースクリプトの管理」から「GitLab Wiki TOC」の「設定」をクリックし、
 ユーザー設定に目次を表示させたい GitLab の URL を次のように追加します。
 
-    http://gitlab.example.net/*
+```
+http://gitlab.example.net/*
+```
 
 ## インストール（Chrome）
 
-TODO
+下記のリンクを右クリックから **名前を付けてリンク先を保存** します。
+
+ - [gitlab-wiki-toc.user.js][]
+
+スクリプトをエディタで開き、上の方のコメントの中にある `@include` を目次を表示させたい GitLab の URL に書き換えます。
+
+```
+// ==UserScript==
+// @name        GitLab Wiki TOC
+// @namespace   http://ngyuki.net/
+// @include     http://gitlab.example.net/*
+// @version     0.0.1
+// @grant       none
+// ==/UserScript==
+```
+
+Chrome の拡張機能の画面にスクリプトをドラッグアンドドロップします。
+
 
 ## 使い方
 
