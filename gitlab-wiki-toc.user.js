@@ -71,7 +71,7 @@
             ;
         });
 
-        var key = 'ngyuki.wiki.toc';
+        var key = 'wiki_toc';
 
         $anc.click(function(){
             if (localStorage[key] === '-')
